@@ -1,4 +1,3 @@
-
 import {
   IonContent,
   IonPage,
@@ -13,34 +12,27 @@ import { Cross } from './Buttons/Cross';
 const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { menuOption, screen, setMenuOption, setScreen } = useContext(MenuPokedexContext);
   const router = useIonRouter();
-
+  
   const onBigBlueButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (screen === EPokedexScreen.MENU) {
       e.preventDefault();
       const path = EPokedexMenuOption[menuOption].toLowerCase();
-      setScreen(menuOption as unknown as EPokedexScreen);
+      setScreen(menuOption as unknown as EPokedexScreen)
       router.push(`/${path}`);
     }
-  };
+  }
 
-  const onOrangeButtonClick = () => {
-    if (screen === EPokedexScreen.POKEDEX || screen === EPokedexScreen.PACK) {
-      // 🔶 Si estás en pokedex u objetos → regresa al menú
+  const toggleScreen = () => {
+    if (screen === EPokedexScreen.EXIT) {
       setScreen(EPokedexScreen.MENU);
       setMenuOption(EPokedexMenuOption.POKEDEX);
       router.push('/home');
-    } else if (screen === EPokedexScreen.EXIT) {
-      // 🔶 Si estás apagado → prende (menú)
-      setScreen(EPokedexScreen.MENU);
-      setMenuOption(EPokedexMenuOption.POKEDEX);
-      router.push('/home');
-    } else if (screen === EPokedexScreen.MENU) {
-      // 🔶 Si estás en menú → apaga
+    } else {
       setScreen(EPokedexScreen.EXIT);
       router.push('/exit');
     }
-  };
-
+  }
+  
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -70,7 +62,12 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               <div id="picture">
                 {children}
               </div>
-              <div id="buttonbottomPicture" className="gameboy-button"></div>
+              <div
+                id="buttonbottomPicture"
+                className="gameboy-button"
+                onClick={toggleScreen}
+              >
+              </div>
               <div id="speakers">
                 <div className="sp"></div>
                 <div className="sp"></div>
@@ -78,9 +75,14 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <div className="sp"></div>
               </div>
             </div>
-            <div id="bigbluebutton" className="gameboy-button" onClick={onBigBlueButtonClick}></div>
+            <div
+              id="bigbluebutton"
+              className="gameboy-button"
+              onClick={onBigBlueButtonClick}
+            >
+            </div>
             <div id="barbutton1" className="gameboy-button"></div>
-            <div id="barbutton2" className="gameboy-button" onClick={onOrangeButtonClick}></div> {/* 🔶 Botón naranja */}
+            <div id="barbutton2" className="gameboy-button"></div>
             <Cross />
           </div>
         </div>
