@@ -1,0 +1,98 @@
+/* Fondo verde suave y minimalista para toda la página */
+.pokedex-screen {
+  --background: #4caf50; /* Un verde más suave y profesional */
+  background-color: #4caf50; /* Fondo verde más suave */
+  background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 3px); /* Gradiente sutil */
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  color: #1b5e20; /* Un verde más oscuro para el texto */
+  height: 100vh; /* Asegura que el fondo cubra toda la altura de la pantalla */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Alinea los elementos verticalmente */
+  padding: 0 15px; /* Añadido espacio lateral para un diseño más limpio */
+}
+
+/* Estilo para la lista de Pokémon */
+.pokemon-list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+/* Estilo de los ítems, con fondo transparente y sin bordes excesivos */
+ion-item {
+  --background: transparent; /* Ítem con fondo transparente */
+  --border-left: none; /* Eliminamos el borde izquierdo */
+  --border-radius: 12px; /* Bordes redondeados para un estilo suave */
+  box-shadow: none; /* Eliminamos la sombra por defecto */
+  margin-bottom: 12px; /* Espaciado entre ítems */
+  border-top: 2px solid transparent; /* Línea superior transparente para no mostrar nada por defecto */
+  border-bottom: 2px solid transparent; /* Línea inferior transparente para no mostrar nada por defecto */
+  transition: border-color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+/* Estilo de los Pokémon, con alineación moderna */
+.pokemon-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px; /* Espaciado cómodo */
+  position: relative;
+  background-color: transparent;
+  border: 1px solid #b2dfdb; /* Borde suave */
+  border-radius: 12px; /* Bordes redondeados */
+  transition: transform 0.2s ease-in-out; /* Transición suave para el zoom */
+}
+
+/* Línea azul que cambia de color cuando el Pokémon es seleccionado */
+.selected-item {
+  border-top: 2px solid #3f51b5; /* Línea azul para indicar la selección */
+  border-bottom: 2px solid #3f51b5; /* Línea azul para indicar la selección */
+}
+
+/* Imagen del Pokémon, más suave y con bordes redondeados */
+.pokemon-image {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 8px; /* Bordes redondeados para las imágenes */
+  transition: transform 0.3s ease-in-out; /* Transición suave */
+}
+
+/* Efecto de flotación más sutil */
+.float-image {
+  animation: float 2s infinite ease-in-out; /* Animación más lenta */
+}
+
+/* Estilo para el nombre del Pokémon con una tipografía limpia */
+.pokemon-label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500; /* Peso de fuente medio para un aspecto limpio */
+  text-transform: capitalize;
+  font-size: 1.1rem;
+  margin-left: auto;
+  text-align: right; /* Alineación a la derecha */
+  width: 100%;
+  padding-right: 16px; /* Espaciado adicional a la derecha */
+  color: #fff; /* Blanco para el nombre */
+  transition: transform 0.3s ease; /* Transición suave para el zoom */
+}
+
+/* Efecto de zoom más sutil al seleccionar un Pokémon */
+.selected-item .pokemon-label {
+  transform: scale(1.05); /* Un zoom más sutil */
+}
+
+/* Animación de flotación más sutil para las imágenes */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px); /* Movimiento más sutil */
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
