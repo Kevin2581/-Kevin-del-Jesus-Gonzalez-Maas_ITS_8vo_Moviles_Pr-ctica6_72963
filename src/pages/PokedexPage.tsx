@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { IonList, IonItem, IonLabel, IonThumbnail, IonImg, useIonAlert } from '@ionic/react';
-import './PackPage.css';
 
 const PokedexPage: React.FC = () => {
   const [pokemons, setPokemons] = useState<any[]>([]);
