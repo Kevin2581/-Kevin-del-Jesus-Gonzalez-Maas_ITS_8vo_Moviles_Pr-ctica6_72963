@@ -1,93 +1,69 @@
-import {
-  IonContent,
-  IonPage,
-  useIonRouter
-} from '@ionic/react';
-import React, { useContext } from 'react';
-
-import { EPokedexMenuOption, EPokedexScreen, MenuPokedexContext } from '../contexts/MenuPokedexContext';
-import '../theme/variables.css';
-import { Cross } from './Buttons/Cross';
+import React from 'react';
+import '../theme/pokedex.css'; // tu CSS de la pokedex
 
 const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { menuOption, screen, setMenuOption, setScreen } = useContext(MenuPokedexContext);
-  const router = useIonRouter();
-  
-  const onBigBlueButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (screen === EPokedexScreen.MENU) {
-      e.preventDefault();
-      const path = EPokedexMenuOption[menuOption].toLowerCase();
-      setScreen(menuOption as unknown as EPokedexScreen)
-      router.push(`/${path}`);
-    }
-  }
-
-  const toggleScreen = () => {
-    if (screen === EPokedexScreen.EXIT) {
-      setScreen(EPokedexScreen.MENU);
-      setMenuOption(EPokedexMenuOption.POKEDEX);
-      router.push('/home');
-    } else {
-      setScreen(EPokedexScreen.EXIT);
-      router.push('/exit');
-    }
-  }
-  
   return (
-    <IonPage>
-      <IonContent fullscreen>
-        <div id="pokedex">
-          <div id="left">
-            <div id="bg_curve1_left"></div>
-            <div id="bg_curve2_left"></div>
-            <div id="curve1_left">
-              <div id="buttonGlass">
-                <div id="reflect"></div>
-              </div>
-              <div id="miniButtonGlass1"></div>
-              <div id="miniButtonGlass2"></div>
-              <div id="miniButtonGlass3"></div>
+    <div id="pokedex">
+      <div id="left">
+        <div id="bg_curve1_left"></div>
+        <div id="curve1_left">
+          <div id="buttonGlass">
+            <div id="reflect"></div>
+          </div>
+          <div id="miniButtonGlass1"></div>
+          <div id="miniButtonGlass2"></div>
+          <div id="miniButtonGlass3"></div>
+        </div>
+
+        <div id="bg_curve2_left"></div>
+        <div id="curve2_left">
+          <div id="junction">
+            <div id="junction1"></div>
+            <div id="junction2"></div>
+          </div>
+
+          {/* Pantalla */}
+          <div id="screen">
+            <div className="font-pokemon text-xs text-green-900 overflow-auto h-full">
+              {children}
             </div>
-            <div id="curve2_left">
-              <div id="junction">
-                <div id="junction1"></div>
-                <div id="junction2"></div>
-              </div>
-            </div>
-            <div id="screen">
-              <div id="topPicture">
-                <div id="buttontopPicture1"></div>
-                <div id="buttontopPicture2"></div>
-              </div>
-              <div id="picture">
-                {children}
-              </div>
-              <div
-                id="buttonbottomPicture"
-                className="gameboy-button"
-                onClick={toggleScreen}
-              >
-              </div>
-              <div id="speakers">
-                <div className="sp"></div>
-                <div className="sp"></div>
-                <div className="sp"></div>
-                <div className="sp"></div>
-              </div>
-            </div>
-            <div
-              id="bigbluebutton"
-              className="gameboy-button"
-              onClick={onBigBlueButtonClick}
-            >
-            </div>
-            <div id="barbutton1" className="gameboy-button"></div>
-            <div id="barbutton2" className="gameboy-button"></div>
-            <Cross />
+          </div>
+
+          {/* Botones */}
+          <div id="bigbluebutton"></div>
+          <div id="barbutton1"></div>
+          <div id="barbutton2"></div>
+          <div id="cross">
+            <div id="topcross"><div id="upT"></div></div>
+            <div id="leftcross"><div id="leftT"></div></div>
+            <div id="midcross"><div id="midCircle"></div></div>
+            <div id="rightcross"><div id="rightT"></div></div>
+            <div id="botcross"><div id="downT"></div></div>
           </div>
         </div>
-      </IonContent>
-    </IonPage>
+      </div>
+
+      <div id="right">
+        <div id="bg_curve1_right"></div>
+        <div id="curve2_right"></div>
+        <div id="bg_curve2_right"></div>
+        <div id="stats"></div>
+        <div id="blueButtons1">
+          <div className="blueButton"></div>
+          <div className="blueButton"></div>
+        </div>
+        <div id="blueButtons2">
+          <div className="blueButton"></div>
+          <div className="blueButton"></div>
+        </div>
+        <div id="barbutton3"></div>
+        <div id="barbutton4"></div>
+        <div id="miniButtonGlass4"></div>
+        <div id="miniButtonGlass5"></div>
+        <div id="yellowBox1"></div>
+        <div id="yellowBox2"></div>
+      </div>
+    </div>
   );
 };
 
