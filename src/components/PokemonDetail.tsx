@@ -1,4 +1,5 @@
 import React from 'react';
+import './PokemonDetail.css';
 
 interface PokemonDetailProps {
   name: string;
@@ -18,12 +19,11 @@ const PokemonDetail: React.FC<PokemonDetailProps> = ({ name, image, stats, onBac
         <ul>
           {stats.map((s, i) => (
             <li key={i}>
-              <strong>{s.name}:</strong> {s.value}
+              <strong>{s.name}:</strong> <span>{s.value}</span>
             </li>
           ))}
         </ul>
       </div>
-      <div className="back-button" onClick={onBack}>⟵ Regresar</div>
     </div>
   );
 };

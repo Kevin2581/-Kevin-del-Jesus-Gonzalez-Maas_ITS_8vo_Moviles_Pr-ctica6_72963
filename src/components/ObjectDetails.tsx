@@ -1,5 +1,5 @@
 import React from 'react';
-import './ObjectDetails.css';
+import './ObjectDetail.css';
 
 interface ObjectDetailProps {
   name: string;
@@ -10,7 +10,7 @@ interface ObjectDetailProps {
 
 const ObjectDetail: React.FC<ObjectDetailProps> = ({ name, image, effect, onBack }) => {
   return (
-    <div className="object-detail-screen">
+    <div className="object-detail-screen hide-scrollbar">
       <div className="detail-image-container">
         <img src={image} alt={name} className="object-detail-image" />
       </div>
@@ -18,7 +18,6 @@ const ObjectDetail: React.FC<ObjectDetailProps> = ({ name, image, effect, onBack
         <h3>{name}</h3>
         <p>{effect}</p>
       </div>
-      <div className="back-button" onClick={onBack}>⟵ Regresar</div>
     </div>
   );
 };
