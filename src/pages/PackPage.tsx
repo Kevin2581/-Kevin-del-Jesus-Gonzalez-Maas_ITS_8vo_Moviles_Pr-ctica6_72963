@@ -1,23 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
-  IonContent,
-  IonPage,
   IonList,
   IonItem,
   IonLabel,
   IonThumbnail,
-  IonImg,
-  useIonAlert
+  IonImg
 } from '@ionic/react';
 
 import './PackPage.css';
-import { MenuPokedexContext, EPokedexScreen, EPokedexMenuOption } from '../contexts/MenuPokedexContext';
+import ObjectDetail from '../components/ObjectDetails';
+import { MenuPokedexContext, EPokedexMenuOption, EPokedexScreen } from '../contexts/MenuPokedexContext';
 
 const PackPage: React.FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [presentAlert] = useIonAlert();
-  const [viewingDetail, setViewingDetail] = useState(false);
+  const [selectedObjectDetail, setSelectedObjectDetail] = useState<any | null>(null);
 
   const { setScreen, setMenuOption } = useContext(MenuPokedexContext);
 
@@ -32,34 +29,47 @@ const PackPage: React.FC = () => {
 
   useEffect(() => {
     const handleUp = () => {
-      setSelectedIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+      if (selectedObjectDetail) {
+        document.getElementById("object-detail")?.scrollBy({ top: -50, behavior: 'smooth' });
+      } else {
+        setSelectedIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+      }
     };
 
     const handleDown = () => {
-      setSelectedIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+      if (selectedObjectDetail) {
+        document.getElementById("object-detail")?.scrollBy({ top: 50, behavior: 'smooth' });
+      } else {
+        setSelectedIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+      }
     };
 
     const handleSelect = async () => {
+      if (selectedObjectDetail) return;
       const item = items[selectedIndex];
       try {
         const res = await fetch(item.url);
         const data = await res.json();
-        setViewingDetail(true);
-        presentAlert({
-          header: item.name,
-          message: data.effect_entries?.find((entry) => entry.language.name === 'en')?.short_effect || 'No description available.',
-          buttons: ['OK'],
-          onDidDismiss: () => {
-            setViewingDetail(false);
-          }
+        const effect = data.effect_entries.find((entry: any) => entry.language.name === 'en')?.short_effect || 'No description available.';
+
+        setSelectedObjectDetail({
+          name: item.name,
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`,
+          effect,
+          cost: data.cost || 0,
+          category: data.category?.name || 'unknown',
         });
-      } catch (e) {
-        console.error("Failed to fetch item details", e);
+        setScreen(EPokedexScreen.PACK);
+      } catch (error) {
+        console.error("Error fetching item details", error);
       }
     };
 
     const handleBack = () => {
-      if (!viewingDetail) {
+      if (selectedObjectDetail) {
+        setSelectedObjectDetail(null);
+        setScreen(EPokedexScreen.PACK);
+      } else {
         setScreen(EPokedexScreen.MENU);
         setMenuOption(EPokedexMenuOption.PACK);
         window.location.href = '/home';
@@ -77,12 +87,27 @@ const PackPage: React.FC = () => {
       window.removeEventListener('cross-select', handleSelect);
       window.removeEventListener('cross-back', handleBack);
     };
-  }, [items, selectedIndex, presentAlert, setScreen, setMenuOption, viewingDetail]);
+  }, [items, selectedIndex, selectedObjectDetail, setScreen, setMenuOption]);
 
   useEffect(() => {
     const selectedItem = document.getElementById(`item-${selectedIndex}`);
     selectedItem?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [selectedIndex]);
+
+  if (selectedObjectDetail) {
+    return (
+      <div id="object-detail" className="object-detail-screen hide-scrollbar" style={{ overflowY: 'auto', height: '100%' }}>
+        <ObjectDetail
+          name={selectedObjectDetail.name}
+          image={selectedObjectDetail.image}
+          effect={selectedObjectDetail.effect}
+          cost={selectedObjectDetail.cost}
+          category={selectedObjectDetail.category}
+          onBack={() => setSelectedObjectDetail(null)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
