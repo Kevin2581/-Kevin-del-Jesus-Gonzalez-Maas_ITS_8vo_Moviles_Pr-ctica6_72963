@@ -23,7 +23,11 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 
   const toggleScreen = () => {
-    if (screen === EPokedexScreen.EXIT) {
+    if (screen === EPokedexScreen.POKEMON_DETAIL) {
+      // Si estamos en detalle de Pokémon, regresamos a la lista
+      setScreen(EPokedexScreen.POKEDEX);
+      router.push('/pokedex');
+    } else if (screen === EPokedexScreen.EXIT) {
       setScreen(EPokedexScreen.MENU);
       setMenuOption(EPokedexMenuOption.POKEDEX);
       router.push('/home');
@@ -31,7 +35,8 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       setScreen(EPokedexScreen.EXIT);
       router.push('/exit');
     }
-  }
+  };
+
   
   return (
     <IonPage>
@@ -67,6 +72,7 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 className="gameboy-button"
                 onClick={toggleScreen}
               >
+
               </div>
               <div id="speakers">
                 <div className="sp"></div>

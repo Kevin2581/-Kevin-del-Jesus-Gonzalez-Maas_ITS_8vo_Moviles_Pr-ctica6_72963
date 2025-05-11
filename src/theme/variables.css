@@ -294,8 +294,8 @@ http://ionicframework.com/docs/theming/ */
 
 	div#picture
 	{
-		height: 180px;
-		width: 254px;
+		height: 170px;
+		width: 250px;
 		margin-top: 20px;
 		margin-bottom: 9px;
 		background-color: #fff;
@@ -303,7 +303,7 @@ http://ionicframework.com/docs/theming/ */
 		clear: both;
 
 		border-radius: 15px;
-		-webkit-border-radius: 15px;
+		-webkit-border-radius: 04px;
 		-moz-border-radius: 15px;
 		-o-border-radius: 15px;
 	}

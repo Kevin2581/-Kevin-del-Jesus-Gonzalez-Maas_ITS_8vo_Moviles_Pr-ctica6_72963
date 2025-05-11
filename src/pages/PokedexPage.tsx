@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { IonList, IonItem, IonLabel, IonThumbnail, IonImg, useIonAlert } from '@ionic/react';
+import {
+  IonList,
+  IonItem,
+  IonLabel,
+  IonThumbnail,
+  IonImg
+} from '@ionic/react';
+
+import './PokedexPage.css';
+import PokemonDetail from '../components/PokemonDetail';
+
+const getIdFromUrl = (url: string) => {
+  const parts = url.split('/');
+  return parts[parts.length - 2];
+};
 
 const PokedexPage: React.FC = () => {
   const [pokemons, setPokemons] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [presentAlert] = useIonAlert();
+  const [selectedPokemonDetail, setSelectedPokemonDetail] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -16,66 +30,99 @@ const PokedexPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const handleUp = () => setSelectedIndex((prev) => (prev === 0 ? pokemons.length - 1 : prev - 1));
-    const handleDown = () => setSelectedIndex((prev) => (prev === pokemons.length - 1 ? 0 : prev + 1));
+    const handleUp = () => {
+      if (selectedPokemonDetail) {
+        document.getElementById("pokemon-detail")?.scrollBy({ top: -50, behavior: 'smooth' });
+      } else {
+        setSelectedIndex((prev) => (prev === 0 ? pokemons.length - 1 : prev - 1));
+      }
+    };
+
+    const handleDown = () => {
+      if (selectedPokemonDetail) {
+        document.getElementById("pokemon-detail")?.scrollBy({ top: 50, behavior: 'smooth' });
+      } else {
+        setSelectedIndex((prev) => (prev === pokemons.length - 1 ? 0 : prev + 1));
+      }
+    };
+
     const handleSelect = async () => {
-      const pokemon = pokemons[selectedIndex];
-      const res = await fetch(pokemon.url);
-      const data = await res.json();
-      presentAlert({
-        header: pokemon.name,
-        message: `Height: ${data.height}, Weight: ${data.weight}`,
-        buttons: ['Ok'],
-        cssClass: 'custom-alert',
-      });
+      if (selectedPokemonDetail) return;
+      const selected = pokemons[selectedIndex];
+      try {
+        const res = await fetch(selected.url);
+        const data = await res.json();
+        const stats = data.stats.map((s: any) => ({
+          name: s.stat.name,
+          value: s.base_stat
+        }));
+
+        setSelectedPokemonDetail({
+          name: selected.name,
+          image: data.sprites.front_default,
+          stats
+        });
+      } catch (error) {
+        console.error("Error al obtener detalles del Pokémon", error);
+      }
+    };
+
+    const handleBack = () => {
+      setSelectedPokemonDetail(null);
     };
 
     window.addEventListener('cross-up', handleUp);
     window.addEventListener('cross-down', handleDown);
     window.addEventListener('cross-select', handleSelect);
+    window.addEventListener('cross-back', handleBack);
 
     return () => {
       window.removeEventListener('cross-up', handleUp);
       window.removeEventListener('cross-down', handleDown);
       window.removeEventListener('cross-select', handleSelect);
+      window.removeEventListener('cross-back', handleBack);
     };
-  }, [pokemons, selectedIndex, presentAlert]);
+  }, [pokemons, selectedIndex, selectedPokemonDetail]);
 
   useEffect(() => {
-    const selectedItem = document.getElementById(`pokemon-item-${selectedIndex}`);
-    selectedItem?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    const selected = document.getElementById(`pokemon-${selectedIndex}`);
+    selected?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [selectedIndex]);
 
+  if (selectedPokemonDetail) {
+    return (
+      <PokemonDetail
+        name={selectedPokemonDetail.name}
+        image={selectedPokemonDetail.image}
+        stats={selectedPokemonDetail.stats}
+        onBack={() => setSelectedPokemonDetail(null)}
+      />
+    );
+  }
+
   return (
-    <div
-      style={{
-        height: '100%',
-        overflowY: 'auto',
-        fontFamily: 'Pokemon GB',
-        fontSize: '12px',
-        color: '#003300',
-        paddingRight: '4px'
-      }}
-    >
-      <IonList style={{ background: 'transparent' }}>
-        {pokemons.map((pokemon, index) => (
-          <IonItem
-            key={index}
-            id={`pokemon-item-${index}`}
-            style={{
-              backgroundColor: index === selectedIndex ? '#b0ffb0' : 'transparent',
-              fontWeight: index === selectedIndex ? 'bold' : 'normal',
-              padding: '4px 0',
-            }}
-          >
-            <IonThumbnail slot="start" style={{ width: '40px', height: '40px' }}>
-              <IonImg
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`}
-              />
-            </IonThumbnail>
-            <IonLabel style={{ textTransform: 'capitalize' }}>{pokemon.name}</IonLabel>
-          </IonItem>
-        ))}
+    <div className="pokemon-list-container hide-scrollbar">
+      <IonList className="pokemon-list">
+        {pokemons.map((pokemon, index) => {
+          const id = getIdFromUrl(pokemon.url);
+          return (
+            <IonItem
+              key={pokemon.name}
+              id={`pokemon-${index}`}
+              className={`pokemon-item ${selectedIndex === index ? 'selected-item' : ''}`}
+              lines="none"
+            >
+              <IonThumbnail slot="start">
+                <IonImg
+                  className="pokemon-image float-image"
+                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+                  alt={pokemon.name}
+                />
+              </IonThumbnail>
+              <IonLabel className="pokemon-label">{pokemon.name}</IonLabel>
+            </IonItem>
+          );
+        })}
       </IonList>
     </div>
   );

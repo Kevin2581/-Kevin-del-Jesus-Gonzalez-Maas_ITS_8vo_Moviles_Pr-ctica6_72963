@@ -14,9 +14,8 @@ export const PokedexMenu = () => {
     <div
       className="font-pokemon text-xs !m-2 !p-2 border-3 border-double border-black rounded-md h-[calc(100%-1rem)]"
       style={{
-        backgroundColor: '#6eff6e', // verde brillante
-        backgroundImage: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 3px)',
-        boxShadow: 'inset 0 0 10px #3f3',
+        backgroundColor: '#ffffff', // verde brillante
+
         color: '#003300',
       }}
     >
