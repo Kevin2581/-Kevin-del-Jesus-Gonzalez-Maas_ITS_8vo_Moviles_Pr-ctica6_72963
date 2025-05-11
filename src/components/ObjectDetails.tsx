@@ -10,7 +10,7 @@ interface ObjectDetailProps {
   onBack: () => void;
 }
 
-const ObjectDetail: React.FC<ObjectDetailProps> = ({ name, image, effect, cost, category }) => {
+const ObjectDetail: React.FC<ObjectDetailProps> = ({ name, image, effect, cost, category, onBack }) => {
   return (
     <div className="object-detail-screen hide-scrollbar">
       <div className="detail-image-container">
@@ -19,10 +19,11 @@ const ObjectDetail: React.FC<ObjectDetailProps> = ({ name, image, effect, cost, 
       <div className="detail-info">
         <h3>{name}</h3>
         <ul>
-          <li><strong>Effect:</strong> <span>{effect}</span></li>
-          <li><strong>Cost:</strong> <span>{cost}</span></li>
-          <li><strong>Category:</strong> <span>{category}</span></li>
+          <li><strong>Efecto:</strong> <span>{effect}</span></li>
+          <li><strong>Costo:</strong> <span>{cost} 🪙</span></li>
+          <li><strong>Categoría:</strong> <span>{category}</span></li>
         </ul>
+
       </div>
     </div>
   );
