@@ -1,23 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
-  IonContent,
-  IonPage,
   IonList,
   IonItem,
   IonLabel,
   IonThumbnail,
-  IonImg,
-  useIonAlert
+  IonImg
 } from '@ionic/react';
 
 import './PackPage.css';
 import { MenuPokedexContext, EPokedexScreen, EPokedexMenuOption } from '../contexts/MenuPokedexContext';
+import ObjectDetail from '../components/ObjectDetails';
 
 const PackPage: React.FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [presentAlert] = useIonAlert();
-  const [viewingDetail, setViewingDetail] = useState(false);
+  const [selectedItemDetail, setSelectedItemDetail] = useState<any | null>(null);
 
   const { setScreen, setMenuOption } = useContext(MenuPokedexContext);
 
@@ -32,36 +29,46 @@ const PackPage: React.FC = () => {
 
   useEffect(() => {
     const handleUp = () => {
-      setSelectedIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+      if (selectedItemDetail) {
+        document.getElementById("item-detail")?.scrollBy({ top: -50, behavior: 'smooth' });
+      } else {
+        setSelectedIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+      }
     };
 
     const handleDown = () => {
-      setSelectedIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+      if (selectedItemDetail) {
+        document.getElementById("item-detail")?.scrollBy({ top: 50, behavior: 'smooth' });
+      } else {
+        setSelectedIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+      }
     };
 
     const handleSelect = async () => {
+      if (selectedItemDetail) return;
       const item = items[selectedIndex];
       try {
         const res = await fetch(item.url);
         const data = await res.json();
-        setViewingDetail(true);
-        presentAlert({
-          header: item.name,
-          message: data.effect_entries?.find((entry) => entry.language.name === 'en')?.short_effect || 'No description available.',
-          buttons: ['OK'],
-          onDidDismiss: () => {
-            setViewingDetail(false);
-          }
+        const effect = data.effect_entries?.find((e: any) => e.language.name === 'en')?.short_effect || 'No description available.';
+        setSelectedItemDetail({
+          name: item.name,
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`,
+          effect
         });
+        setScreen(EPokedexScreen.POKEMON_DETAIL);
       } catch (e) {
-        console.error("Failed to fetch item details", e);
+        console.error("Error loading item details", e);
       }
     };
 
     const handleBack = () => {
-      if (!viewingDetail) {
-        setScreen(EPokedexScreen.MENU);
+      if (selectedItemDetail) {
+        setSelectedItemDetail(null);
+        setScreen(EPokedexScreen.PACK);
+      } else {
         setMenuOption(EPokedexMenuOption.PACK);
+        setScreen(EPokedexScreen.MENU);
         window.location.href = '/home';
       }
     };
@@ -77,12 +84,32 @@ const PackPage: React.FC = () => {
       window.removeEventListener('cross-select', handleSelect);
       window.removeEventListener('cross-back', handleBack);
     };
-  }, [items, selectedIndex, presentAlert, setScreen, setMenuOption, viewingDetail]);
+  }, [items, selectedIndex, selectedItemDetail, setScreen, setMenuOption]);
 
   useEffect(() => {
     const selectedItem = document.getElementById(`item-${selectedIndex}`);
     selectedItem?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [selectedIndex]);
+
+  if (selectedItemDetail) {
+    return (
+      <div
+         id="pokemon-detail"
+              className="object-detail-screen"
+              style={{ overflowY: 'auto', height: '100%' }}
+            >
+              <ObjectDetail
+                name={selectedItemDetail.name}
+                image={selectedItemDetail.image}
+                effect={selectedItemDetail.effect}
+                onBack={() => {
+                  setSelectedItemDetail(null);
+                  setScreen(EPokedexScreen.PACK);
+                }}
+              />
+      </div>
+    );
+  }
 
   return (
     <div
