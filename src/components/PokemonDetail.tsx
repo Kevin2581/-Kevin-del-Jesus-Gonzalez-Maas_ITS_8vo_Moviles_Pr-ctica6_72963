@@ -8,6 +8,16 @@ interface PokemonDetailProps {
   onBack: () => void;
 }
 
+// Diccionario de traducciones para las estadísticas
+const statTranslations: { [key: string]: string } = {
+  hp: 'Puntos de Salud',
+  attack: 'Ataque',
+  defense: 'Defensa',
+  'special-attack': 'Ataque Especial',
+  'special-defense': 'Defensa Especial',
+  speed: 'Velocidad',
+};
+
 const PokemonDetail: React.FC<PokemonDetailProps> = ({ name, image, stats, onBack }) => {
   return (
     <div className="pokemon-detail-screen">
@@ -19,10 +29,11 @@ const PokemonDetail: React.FC<PokemonDetailProps> = ({ name, image, stats, onBac
         <ul>
           {stats.map((s, i) => (
             <li key={i}>
-              <strong>{s.name}:</strong> <span>{s.value}</span>
+              <strong>{statTranslations[s.name] || s.name}:</strong> <span>{s.value}</span>
             </li>
           ))}
         </ul>
+
       </div>
     </div>
   );

@@ -1,6 +1,11 @@
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
+import ObjectDetailPage from './components/ObjectDetails'; // Importa la nueva página
+
+<Route exact path="/object-detail">
+  <ObjectDetailPage />
+</Route>
 
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
