@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   IonContent,
   IonPage,
@@ -11,11 +11,15 @@ import {
 } from '@ionic/react';
 
 import './PackPage.css';
+import { MenuPokedexContext, EPokedexScreen, EPokedexMenuOption } from '../contexts/MenuPokedexContext';
 
 const PackPage: React.FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [presentAlert] = useIonAlert();
+  const [viewingDetail, setViewingDetail] = useState(false);
+
+  const { setScreen, setMenuOption } = useContext(MenuPokedexContext);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -40,26 +44,40 @@ const PackPage: React.FC = () => {
       try {
         const res = await fetch(item.url);
         const data = await res.json();
+        setViewingDetail(true);
         presentAlert({
           header: item.name,
           message: data.effect_entries?.find((entry) => entry.language.name === 'en')?.short_effect || 'No description available.',
           buttons: ['OK'],
+          onDidDismiss: () => {
+            setViewingDetail(false);
+          }
         });
       } catch (e) {
         console.error("Failed to fetch item details", e);
       }
     };
 
+    const handleBack = () => {
+      if (!viewingDetail) {
+        setScreen(EPokedexScreen.MENU);
+        setMenuOption(EPokedexMenuOption.PACK);
+        window.location.href = '/home';
+      }
+    };
+
     window.addEventListener('cross-up', handleUp);
     window.addEventListener('cross-down', handleDown);
     window.addEventListener('cross-select', handleSelect);
+    window.addEventListener('cross-back', handleBack);
 
     return () => {
       window.removeEventListener('cross-up', handleUp);
       window.removeEventListener('cross-down', handleDown);
       window.removeEventListener('cross-select', handleSelect);
+      window.removeEventListener('cross-back', handleBack);
     };
-  }, [items, selectedIndex, presentAlert]);
+  }, [items, selectedIndex, presentAlert, setScreen, setMenuOption, viewingDetail]);
 
   useEffect(() => {
     const selectedItem = document.getElementById(`item-${selectedIndex}`);

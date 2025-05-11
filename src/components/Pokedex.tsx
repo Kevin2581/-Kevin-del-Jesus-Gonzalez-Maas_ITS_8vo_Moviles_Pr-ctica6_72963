@@ -88,7 +88,15 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             >
             </div>
             <div id="barbutton1" className="gameboy-button"></div>
-            <div id="barbutton2" className="gameboy-button"></div>
+            <div
+              id="barbutton2"
+              className="gameboy-button"
+              onClick={() => {
+                const event = new CustomEvent("cross-back");
+                window.dispatchEvent(event);
+              }}
+            ></div>
+
             <Cross />
           </div>
         </div>

@@ -28,7 +28,7 @@ export const PokedexMenu = () => {
               icon={faCaretRight}
             />
             <span className="w-full"></span>
-            <span>Puchamones</span>
+            <span>Pokedex</span>
           </div>
         </li>
         <li>
@@ -39,7 +39,7 @@ export const PokedexMenu = () => {
               icon={faCaretRight}
             />
             <span className="w-full"></span>
-            <span>Objetos</span>
+            <span>Objects</span>
           </div>
         </li>
         <li>
@@ -50,7 +50,7 @@ export const PokedexMenu = () => {
               icon={faCaretRight}
             />
             <span className="w-full"></span>
-            <span>Salir</span>
+            <span>exit</span>
           </div>
         </li>
       </ul>

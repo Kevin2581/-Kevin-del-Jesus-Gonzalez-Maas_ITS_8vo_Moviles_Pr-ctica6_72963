@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   IonList,
   IonItem,
@@ -9,6 +9,7 @@ import {
 
 import './PokedexPage.css';
 import PokemonDetail from '../components/PokemonDetail';
+import { MenuPokedexContext, EPokedexScreen, EPokedexMenuOption } from '../contexts/MenuPokedexContext';
 
 const getIdFromUrl = (url: string) => {
   const parts = url.split('/');
@@ -19,6 +20,8 @@ const PokedexPage: React.FC = () => {
   const [pokemons, setPokemons] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedPokemonDetail, setSelectedPokemonDetail] = useState<any | null>(null);
+
+  const { setScreen, setMenuOption } = useContext(MenuPokedexContext);
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -62,13 +65,21 @@ const PokedexPage: React.FC = () => {
           image: data.sprites.front_default,
           stats
         });
+        setScreen(EPokedexScreen.POKEMON_DETAIL);
       } catch (error) {
         console.error("Error al obtener detalles del Pokémon", error);
       }
     };
 
     const handleBack = () => {
-      setSelectedPokemonDetail(null);
+      if (selectedPokemonDetail) {
+        setSelectedPokemonDetail(null); // volver a la lista
+        setScreen(EPokedexScreen.POKEDEX);
+      } else {
+        setScreen(EPokedexScreen.MENU);
+        setMenuOption(EPokedexMenuOption.POKEDEX);
+        window.location.href = '/home'; // ir al menú principal
+      }
     };
 
     window.addEventListener('cross-up', handleUp);
@@ -82,7 +93,7 @@ const PokedexPage: React.FC = () => {
       window.removeEventListener('cross-select', handleSelect);
       window.removeEventListener('cross-back', handleBack);
     };
-  }, [pokemons, selectedIndex, selectedPokemonDetail]);
+  }, [pokemons, selectedIndex, selectedPokemonDetail, setScreen, setMenuOption]);
 
   useEffect(() => {
     const selected = document.getElementById(`pokemon-${selectedIndex}`);
@@ -91,12 +102,14 @@ const PokedexPage: React.FC = () => {
 
   if (selectedPokemonDetail) {
     return (
-      <PokemonDetail
-        name={selectedPokemonDetail.name}
-        image={selectedPokemonDetail.image}
-        stats={selectedPokemonDetail.stats}
-        onBack={() => setSelectedPokemonDetail(null)}
-      />
+      <div id="pokemon-detail" className="pokemon-detail-screen hide-scrollbar" style={{ overflowY: 'auto', height: '100%' }}>
+        <PokemonDetail
+          name={selectedPokemonDetail.name}
+          image={selectedPokemonDetail.image}
+          stats={selectedPokemonDetail.stats}
+          onBack={() => setSelectedPokemonDetail(null)}
+        />
+      </div>
     );
   }
 
