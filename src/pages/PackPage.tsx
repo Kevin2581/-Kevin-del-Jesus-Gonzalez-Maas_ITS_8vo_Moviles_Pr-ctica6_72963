@@ -18,6 +18,17 @@ const PackPage: React.FC = () => {
 
   const { setScreen, setMenuOption } = useContext(MenuPokedexContext);
 
+  // Mapeo manual de categorías comunes a español
+  const categoryTranslation: { [key: string]: string } = {
+    "ball": "Bola",
+    "potion": "Poción",
+    "tm": "Máquina Técnica",
+    "berry": "Baya",
+    "key": "Llave",
+    "evolutionary-stone": "Piedra Evolutiva",
+    // Puedes agregar más categorías aquí si es necesario
+  };
+
   useEffect(() => {
     const fetchItems = async () => {
       const response = await fetch('https://pokeapi.co/api/v2/item?limit=50');
@@ -60,6 +71,27 @@ const PackPage: React.FC = () => {
     const handleSelect = async () => {
       if (selectedObjectDetail) return;
       const item = items[selectedIndex];
+
+      // ⚠️ Datos manuales para pokéballs
+      const extraBallData: Record<string, { captureRate: number }> = {
+        "poke-ball": { captureRate: 255 },
+        "great-ball": { captureRate: 200 },
+        "ultra-ball": { captureRate: 150 },
+        "master-ball": { captureRate: 255 },
+        "net-ball": { captureRate: 150 },
+        "dive-ball": { captureRate: 150 },
+        "nest-ball": { captureRate: 150 },
+        "repeat-ball": { captureRate: 150 },
+        "timer-ball": { captureRate: 150 },
+        "luxury-ball": { captureRate: 255 },
+        "premier-ball": { captureRate: 255 },
+        "quick-ball": { captureRate: 150 },
+        "dusk-ball": { captureRate: 150 },
+        "heal-ball": { captureRate: 255 },
+        "friend-ball": { captureRate: 255 },
+        "level-ball": { captureRate: 255 }
+      };
+
       try {
         const res = await fetch(item.url);
         const data = await res.json();
@@ -69,13 +101,16 @@ const PackPage: React.FC = () => {
 
         const nameEs = data.names.find((n: any) => n.language.name === 'es')?.name;
 
-        // ✅ Asegura la categoría en español
+        // Aquí se obtiene la categoría y se traduce a español
         let categoryEs = '';
         if (data.category?.url) {
           const categoryRes = await fetch(data.category.url);
           const categoryData = await categoryRes.json();
           categoryEs = categoryData.names.find((c: any) => c.language.name === 'es')?.name || data.category.name;
         }
+
+        // Si no se encuentra en español, se busca en el mapeo manual
+        const categoryInSpanish = categoryTranslation[categoryEs.toLowerCase()] || categoryEs || 'desconocida';
 
         const attributeTranslations: Record<string, string> = {
           "usable-overworld": "Usable fuera de combate",
@@ -107,22 +142,22 @@ const PackPage: React.FC = () => {
         }
 
         const flingPower = data.fling_power !== null ? data.fling_power : undefined;
-        const heldByPokemon = Array.isArray(data.held_by_pokemon) && data.held_by_pokemon.length > 0;
+        const captureRate = extraBallData[item.name]?.captureRate;
 
         setSelectedObjectDetail({
           name: item.name,
           localizedName: nameEs,
           image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`,
-          flavorText: flavorEs?.text || flavorEn?.text || '',
+          flavorText: flavorEs?.text || flavorEn?.text || 'Sin descripción disponible',
           cost: data.cost || 0,
-          category: data.category?.name || 'desconocida',
+          category: categoryInSpanish,  // Usar la categoría traducida
           localizedCategory: categoryEs,
           attributes,
-          isDiscardable: data.is_discardable,
-          isConsumable: data.is_consumable,
-          flingEffect,
+          isDiscardable: data.is_discardable ?? false,
+          isConsumable: data.is_consumable ?? false,
+          flingEffect: flingEffect ?? 'Sin efecto de lanzamiento',
           flingPower,
-          isHeld: heldByPokemon
+          captureRate
         });
 
         setScreen(EPokedexScreen.PACK);
@@ -169,13 +204,14 @@ const PackPage: React.FC = () => {
           image={selectedObjectDetail.image}
           flavorText={selectedObjectDetail.flavorText}
           cost={selectedObjectDetail.cost}
-          category={selectedObjectDetail.category}
+          category={selectedObjectDetail.category}  // Aquí se pasa la categoría en español
           localizedCategory={selectedObjectDetail.localizedCategory}
           attributes={selectedObjectDetail.attributes}
           isDiscardable={selectedObjectDetail.isDiscardable}
           isConsumable={selectedObjectDetail.isConsumable}
           flingEffect={selectedObjectDetail.flingEffect}
           flingPower={selectedObjectDetail.flingPower}
+          captureRate={selectedObjectDetail.captureRate}
           onBack={() => setSelectedObjectDetail(null)}
         />
       </div>
@@ -183,16 +219,13 @@ const PackPage: React.FC = () => {
   }
 
   return (
-    <div
-      className="hide-scrollbar"
-      style={{
-        height: '100%',
-        fontFamily: 'Pokemon GB',
-        fontSize: '12px',
-        color: '#003300',
-        paddingRight: '4px'
-      }}
-    >
+    <div className="hide-scrollbar" style={{
+      height: '100%',
+      fontFamily: 'Pokemon GB',
+      fontSize: '12px',
+      color: '#003300',
+      paddingRight: '4px'
+    }}>
       <IonList style={{ background: 'transparent' }}>
         {items.map((item, index) => (
           <IonItem

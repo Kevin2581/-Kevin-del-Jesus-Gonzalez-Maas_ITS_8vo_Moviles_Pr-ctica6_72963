@@ -132,12 +132,12 @@ http://ionicframework.com/docs/theming/ */
 		-webkit-box-shadow: 0 0 10px #490000;
 		-moz-box-shadow: 0 0 10px #490000;
 		-o-box-shadow: 0 0 10px #490000;
-		
+
 		background: radial-gradient(#05fbfb, #29abe3);
 		background: -webkit-radial-gradient(#05fbfb, #29abe3);
 		background: -moz-radial-gradient(#05fbfb, #29abe3);
 		background: -o-radial-gradient(#05fbfb, #29abe3);
-		
+
 		border-radius: 35px;
 		-webkit-border-radius: 35px;
 		-moz-border-radius: 35px;
@@ -156,7 +156,7 @@ http://ionicframework.com/docs/theming/ */
 		-webkit-border-radius: 15px 9px;
 		-moz-border-radius: 15px 9px;
 	   	-o-border-radius: 15px 9px;
-		        
+
 	}
 
 	div#miniButtonGlass1
@@ -175,7 +175,7 @@ http://ionicframework.com/docs/theming/ */
 		-webkit-border-radius: 20px;
 		-moz-border-radius: 20px;
 		-o-border-radius: 20px;
-		
+
 		background: radial-gradient(#fb7b7b, #fb0505);
 		background: -webkit-radial-gradient(#fb7b7b, #fb0505);
 		background: -moz-radial-gradient(#fb7b7b, #fb0505);
@@ -198,7 +198,7 @@ http://ionicframework.com/docs/theming/ */
 		-webkit-border-radius: 20px;
 		-moz-border-radius: 20px;
 		-o-border-radius: 20px;
-		
+
 		background: radial-gradient(#fbfb9b, #fbfb05);
 		background: -webkit-radial-gradient(#fbfb9b, #fbfb05);
 		background: -moz-radial-gradient(#fbfb9b, #fbfb05);
@@ -221,7 +221,7 @@ http://ionicframework.com/docs/theming/ */
 		-webkit-border-radius: 20px;
 		-moz-border-radius: 20px;
 		-o-border-radius: 20px;
-		
+
 		background: radial-gradient(#b0fb7b, #50fb05);
 		background: -webkit-radial-gradient(#b0fb7b, #50fb05);
 		background: -moz-radial-gradient(#b0fb7b, #50fb05);
@@ -233,8 +233,8 @@ http://ionicframework.com/docs/theming/ */
 		width: 60px;
 		height: 451px;
 		float: right;
-		
-		background: linear-gradient(left, #8b0000 0%, #c00d0d 50%, #8b0000 100%);	
+
+		background: linear-gradient(left, #8b0000 0%, #c00d0d 50%, #8b0000 100%);
 		background: -webkit-linear-gradient(left, #8b0000 0%, #c00d0d 50%, #8b0000 100%);
 		background: -moz-linear-gradient(left, #8b0000 0%, #c00d0d 50%, #8b0000 100%);
 		background: -o-linear-gradient(left, #8b0000 0%, #c00d0d 50%, #8b0000 100%);
@@ -357,7 +357,7 @@ http://ionicframework.com/docs/theming/ */
 		-moz-box-shadow: -2px 1px #5e0000;
 		-o-box-shadow: -2px 1px #5e0000;
 
-		background: linear-gradient(top, #c00d0d 0%, #8b0000 80%);	
+		background: linear-gradient(top, #c00d0d 0%, #8b0000 80%);
 		background: -webkit-linear-gradient(top, #c00d0d 0%, #8b0000 80%);
 		background: -moz-linear-gradient(top, #c00d0d 0%, #8b0000 80%);
 		background: -o-linear-gradient(top, #c00d0d 0%, #8b0000 80%);
@@ -398,7 +398,7 @@ http://ionicframework.com/docs/theming/ */
 		-moz-border-radius: 100px;
 		-o-border-radius: 100px;
 
-		background: linear-gradient(top, #307bfb 0%, #0530e5 80%);	
+		background: linear-gradient(top, #307bfb 0%, #0530e5 80%);
 		background: -webkit-linear-gradient(top, #307bfb 0%, #0530e5 80%);
 		background: -moz-linear-gradient(top, #307bfb 0%, #0530e5 80%);
 		background: -o-linear-gradient(top, #307bfb 0%, #0530e5 80%);
@@ -423,7 +423,7 @@ http://ionicframework.com/docs/theming/ */
 		-moz-border-radius: 100px;
 		-o-border-radius: 100px;
 
-		background: linear-gradient(top, #50fb05 0%, #057b05 100%);	
+		background: linear-gradient(top, #50fb05 0%, #057b05 100%);
 		background: -webkit-linear-gradient(top, #50fb05 0%, #057b05 100%);
 		background: -moz-linear-gradient(top, #50fb05 0%, #057b05 100%);
 		background: -o-linear-gradient(top, #50fb05 0%, #057b05 100%);
@@ -448,7 +448,7 @@ http://ionicframework.com/docs/theming/ */
 		-moz-border-radius: 100px;
 		-o-border-radius: 100px;
 
-		background: linear-gradient(top, #fb6505 0%, #bb0505 100%);	
+		background: linear-gradient(top, #fb6505 0%, #bb0505 100%);
 		background: -webkit-linear-gradient(top, #fb6505 0%, #bb0505 100%);
 		background: -moz-linear-gradient(top, #fb6505 0%, #bb0505 100%);
 		background: -o-linear-gradient(top, #fb6505 0%, #bb0505 100%);
@@ -660,7 +660,7 @@ http://ionicframework.com/docs/theming/ */
 		background: -webkit-radial-gradient(#111, #222);
 		background: -moz-radial-gradient(#111, #222);
 		background: -o-radial-gradient(#111, #222);
-	} 
+	}
 
 
 
@@ -786,7 +786,7 @@ http://ionicframework.com/docs/theming/ */
 		-moz-border-radius: 10px;
 		-o-border-radius: 10px;
 
-		background: linear-gradient(top, #307bfb 0%, #0530e5 80%);	
+		background: linear-gradient(top, #307bfb 0%, #0530e5 80%);
 		background: -webkit-linear-gradient(top, #307bfb 0%, #0530e5 80%);
 		background: -moz-linear-gradient(top, #307bfb 0%, #0530e5 80%);
 		background: -o-linear-gradient(top, #307bfb 0%, #0530e5 80%);
@@ -812,7 +812,7 @@ http://ionicframework.com/docs/theming/ */
 		-moz-border-radius: 100px;
 		-o-border-radius: 100px;
 
-		background: linear-gradient(top, #50fb05 0%, #057b05 100%);	
+		background: linear-gradient(top, #50fb05 0%, #057b05 100%);
 		background: -webkit-linear-gradient(top, #50fb05 0%, #057b05 100%);
 		background: -moz-linear-gradient(top, #50fb05 0%, #057b05 100%);
 		background: -o-linear-gradient(top, #50fb05 0%, #057b05 100%);
@@ -838,7 +838,7 @@ http://ionicframework.com/docs/theming/ */
 		-moz-border-radius: 100px;
 		-o-border-radius: 100px;
 
-		background: linear-gradient(top, #fb6505 0%, #bb0505 100%);	
+		background: linear-gradient(top, #fb6505 0%, #bb0505 100%);
 		background: -webkit-linear-gradient(top, #fb6505 0%, #bb0505 100%);
 		background: -moz-linear-gradient(top, #fb6505 0%, #bb0505 100%);
 		background: -o-linear-gradient(top, #fb6505 0%, #bb0505 100%);
@@ -869,7 +869,7 @@ http://ionicframework.com/docs/theming/ */
 		-webkit-border-radius: 20px;
 		-moz-border-radius: 20px;
 		-o-border-radius: 20px;
-		
+
 		background: radial-gradient(#ff9b5b, #fb6505);
 		background: -webkit-radial-gradient(#ff9b5b, #fb6505);
 		background: -moz-radial-gradient(#ff9b5b, #fb6505);
@@ -896,7 +896,7 @@ http://ionicframework.com/docs/theming/ */
 		-webkit-border-radius: 20px;
 		-moz-border-radius: 20px;
 		-o-border-radius: 20px;
-		
+
 		background: radial-gradient(#0abd0a, #057b05);
 		background: -webkit-radial-gradient(#0abd0a, #057b05);
 		background: -moz-radial-gradient(#0abd0a, #057b05);
